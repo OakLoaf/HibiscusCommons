@@ -1,15 +1,13 @@
-package me.lojosho.hibiscuscommons.nms.v1_20_R4;
+package me.lojosho.hibiscuscommons.nms.v1_21_R4;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.component.DyedItemColor;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.entity.Player;
+import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,15 +19,10 @@ public class NMSUtils extends NMSCommon implements me.lojosho.hibiscuscommons.nm
     }
 
     @Override
-    public int getInventoryId(Player bukkitPlayer) {
-        ServerPlayer player = ((CraftPlayer) bukkitPlayer).getHandle();
-        return player.inventoryMenu.containerId;
-    }
-
-    @Override
-    public int incrementInventoryStateId(Player bukkitPlayer) {
-        ServerPlayer player = ((CraftPlayer) bukkitPlayer).getHandle();
-        return player.inventoryMenu.incrementStateId();
+    public org.bukkit.entity.Entity getEntity(int entityId) {
+        net.minecraft.world.entity.Entity entity = getNMSEntity(entityId);
+        if (entity == null) return null;
+        return entity.getBukkitEntity();
     }
 
     @Override
@@ -46,8 +39,7 @@ public class NMSUtils extends NMSCommon implements me.lojosho.hibiscuscommons.nm
     @Override
     public ItemStack setColor(@NotNull ItemStack itemStack, Color color) {
         net.minecraft.world.item.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);
-        boolean tooltip = !nmsStack.has(DataComponents.DYED_COLOR) || nmsStack.get(DataComponents.DYED_COLOR).showInTooltip();
-        nmsStack.set(DataComponents.DYED_COLOR, new DyedItemColor(color.asRGB(), tooltip));
+        nmsStack.set(DataComponents.DYED_COLOR, new DyedItemColor(color.asRGB()));
         return CraftItemStack.asBukkitCopy(nmsStack);
     }
 

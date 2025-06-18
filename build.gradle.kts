@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "me.lojosho"
-version = "0.6.0${getGitCommitHash()}"
+version = "0.6.4${getGitCommitHash()}"
 
 allprojects {
     apply(plugin = "java")
@@ -24,13 +24,14 @@ allprojects {
         maven("https://oss.sonatype.org/content/repositories/snapshots")
 
         // Paper Repo
-        maven("https://papermc.io/repo/repository/maven-public/")
+        maven("https://repo.papermc.io/repository/maven-public/")
 
         // UpdateChecker
         maven("https://repo.jeff-media.com/public")
 
         // Nexo
         maven("https://repo.nexomc.com/snapshots/")
+        maven("https://repo.nexomc.com/releases/")
 
         // Geary
         maven("https://repo.mineinabyss.com/releases/")
@@ -60,6 +61,9 @@ allprojects {
         // Oraxen
         maven("https://repo.oraxen.com/releases")
 
+        // Craft Engine
+        maven("https://repo.momirealms.net/releases/")
+
         // Needed for brigadier for dependencies (I
         maven("https://libraries.minecraft.net/")
 
@@ -76,44 +80,50 @@ allprojects {
         compileOnly(fileTree("${project.rootDir}/lib") { include("*.jar") })
 
         // Included externally
-        compileOnly("com.mojang:authlib:1.5.25")
-        //compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
-        compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
+        compileOnly("com.mojang:authlib:3.13.56")
         compileOnly("org.jetbrains:annotations:26.0.1")
         compileOnly("io.th0rgal:oraxen:1.182.0")
-        compileOnly("com.nexomc:nexo:0.8.0-dev.8")
+        compileOnly("com.nexomc:nexo:1.0.0")
         compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.3-beta-14")
         compileOnly("com.mineinabyss:geary-papermc:0.31.0-dev.4")
-        compileOnly("it.unimi.dsi:fastutil:8.5.13")
+        compileOnly("it.unimi.dsi:fastutil:8.5.15")
         compileOnly("com.denizenscript:denizen:1.2.7-SNAPSHOT")
-        compileOnly("io.lumine:Mythic-Dist:5.2.1")
+        compileOnly("io.lumine:Mythic-Dist:5.8.0")
         compileOnly("com.github.LeonMangler:SuperVanish:6.2.17")
         compileOnly("net.Indyuce:MMOItems-API:6.9.4-SNAPSHOT")
-        compileOnly("com.willfp:eco:6.67.2")
+        compileOnly("com.willfp:eco:6.74.5")
         compileOnly("com.github.retrooper:packetevents-spigot:2.4.0")
         compileOnly("me.clip:placeholderapi:2.11.6")
         compileOnly("LibsDisguises:LibsDisguises:10.0.44") {
             exclude("org.spigotmc", "spigot")
         }
-        compileOnly("com.github.Xiao-MoMi:Custom-Fishing:2.2.26")
+        compileOnly("com.github.Xiao-MoMi:Custom-Fishing:2.3.3")
         compileOnly("com.ticxo.modelengine:ModelEngine:R4.0.2")
-        compileOnly("org.joml:joml:1.10.5")
+        compileOnly("org.joml:joml:1.10.8")
+        compileOnly("com.google.guava:guava:33.4.0-jre") // Sometimes just not included in compile time???
+        compileOnly("com.github.Gecolay.GSit:core:2.0.0")
+        compileOnly("net.momirealms:craft-engine-core:0.0.49")
+        compileOnly("net.momirealms:craft-engine-bukkit:0.0.49")
 
         // Lombok <3
-        annotationProcessor("org.projectlombok:lombok:1.18.34")
-        compileOnly("org.projectlombok:lombok:1.18.34")
-        testCompileOnly("org.projectlombok:lombok:1.18.34")
-        testAnnotationProcessor("org.projectlombok:lombok:1.18.34")
+        annotationProcessor("org.projectlombok:lombok:1.18.36")
+        compileOnly("org.projectlombok:lombok:1.18.36")
+        testCompileOnly("org.projectlombok:lombok:1.18.36")
+        testAnnotationProcessor("org.projectlombok:lombok:1.18.36")
 
         // Spigot Auto Loader Libraries
-        compileOnly("net.kyori:adventure-api:4.18.0")
-        compileOnly("net.kyori:adventure-text-minimessage:4.18.0")
+        compileOnly("net.kyori:adventure-api:4.19.0")
+        compileOnly("net.kyori:adventure-text-minimessage:4.19.0")
+        compileOnly("net.kyori:adventure-text-serializer-gson:4.19.0")
         compileOnly("net.kyori:adventure-platform-bukkit:4.3.4")
-        compileOnly("org.apache.commons:commons-lang3:3.14.0")
+        compileOnly("org.apache.commons:commons-lang3:3.17.0")
 
         // Shaded Dependencies
-        implementation("org.spongepowered:configurate-yaml:4.2.0-SNAPSHOT")
-        implementation("org.bstats:bstats-bukkit:3.0.2")
+        implementation("org.spongepowered:configurate-yaml:4.2.0") {
+            exclude("net.kyori")
+        }
+        implementation("net.kyori:option:1.1.0")
+        implementation("org.bstats:bstats-bukkit:3.1.0")
         implementation("com.jeff_media:SpigotUpdateChecker:3.0.0")
         implementation("com.github.BG-Software-LLC:CommentedConfiguration:bed3c46369")
     }
@@ -126,18 +136,18 @@ dependencies {
     implementation(project(path = ":v1_21_R1", configuration = "reobf"))
     implementation(project(path = ":v1_21_R2", configuration = "reobf"))
     implementation(project(path = ":v1_21_R3", configuration = "reobf"))
+    implementation(project(path = ":v1_21_R4", configuration = "reobf"))
 }
 
 tasks {
     compileJava {
         options.encoding = Charsets.UTF_8.name()
-        //options.release.set(17)
     }
 
     runServer {
         dependsOn(shadowJar)
         dependsOn(jar)
-        minecraftVersion("1.21.1")
+        minecraftVersion("1.21.5")
 
         downloadPlugins {
             hangar("PlaceholderAPI", "2.11.6")
@@ -160,12 +170,14 @@ tasks {
         dependsOn(":v1_21_R1:reobfJar")
         dependsOn(":v1_21_R2:reobfJar")
         dependsOn(":v1_21_R3:reobfJar")
+        dependsOn(":v1_21_R4:reobfJar")
         mergeServiceFiles()
 
         relocate("org.bstats", "me.lojosho.shaded.bstats")
         relocate("org.spongepowered.configurate", "me.lojosho.shaded.configurate")
         relocate("com.jeff_media.updatechecker", "me.lojosho.shaded.updatechecker")
         relocate("com.bgsoftware", "me.lojosho.shaded.configupdater")
+        relocate("net.kyori.option", "me.lojosho.shaded.option")
 
         dependencies {
             exclude(dependency("org.yaml:snakeyaml"))
@@ -206,7 +218,8 @@ bukkit {
         "Denizen",
         "MMOItems",
         "Eco",
-        "Nexo"
+        "Nexo",
+        "CraftEngine"
     )
     version = "${project.version}"
     loadBefore = listOf(
@@ -214,10 +227,11 @@ bukkit {
     )
 
     libraries = listOf(
-        "net.kyori:adventure-api:4.18.0",
-        "net.kyori:adventure-text-minimessage:4.18.0",
+        "net.kyori:adventure-api:4.19.0",
+        "net.kyori:adventure-text-minimessage:4.19.0",
+        "net.kyori:adventure-text-serializer-gson:4.19.0",
         "net.kyori:adventure-platform-bukkit:4.3.4",
-        "org.apache.commons:commons-lang3:3.14.0"
+        "org.apache.commons:commons-lang3:3.17.0"
         //"org.spongepowered:configurate-yaml:4.2.0-SNAPSHOT" // Readd when 4.2.0 releases
     )
 }

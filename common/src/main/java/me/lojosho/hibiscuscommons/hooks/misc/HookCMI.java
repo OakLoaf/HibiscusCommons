@@ -1,14 +1,18 @@
 package me.lojosho.hibiscuscommons.hooks.misc;
 
+import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.events.CMIPlayerUnVanishEvent;
 import com.Zrips.CMI.events.CMIPlayerVanishEvent;
 import me.lojosho.hibiscuscommons.api.events.HibiscusPlayerUnVanishEvent;
 import me.lojosho.hibiscuscommons.api.events.HibiscusPlayerVanishEvent;
 import me.lojosho.hibiscuscommons.hooks.Hook;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 
 /**
  * A hook that integrates the plugin {@link com.Zrips.CMI.CMI CMI}
@@ -16,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 public class HookCMI extends Hook {
     public HookCMI() {
         super("CMI");
+        setActive(true);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

@@ -1,6 +1,7 @@
 package me.lojosho.hibiscuscommons.nms;
 
 import it.unimi.dsi.fastutil.ints.IntList;
+import net.kyori.adventure.text.Component;
 import me.lojosho.hibiscuscommons.util.packets.PacketManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
@@ -157,4 +158,11 @@ public class NMSPackets {
         PacketManager.sendItemDisplayMetadata(entityId, translation, scale, rotationLeft, rotationRight, billboard,
             blockLight, skyLight, viewRange, width, height, transform, itemStack, sendTo);
     }
-}
+
+    /**
+     * @deprecated Move to {@link PacketManager#sendToastPacket(Player, ItemStack, Component, Component)}
+     */
+    @Deprecated
+    public void sendToastPacket(Player player, ItemStack icon, Component title, Component description) {
+        PacketManager.sendToastPacket(player, icon, title, description);
+    }}

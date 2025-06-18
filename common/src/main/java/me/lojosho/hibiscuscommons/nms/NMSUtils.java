@@ -1,7 +1,12 @@
 package me.lojosho.hibiscuscommons.nms;
 
+import org.bukkit.Color;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
 
 public interface NMSUtils {
 
@@ -14,6 +19,11 @@ public interface NMSUtils {
     default Entity getEntity(int entityId) {
         return NMSHandlers.getHandler().getEntity(entityId);
     }
+
+    @Nullable
+    Color getColor(ItemStack itemStack);
+
+    ItemStack setColor(@NotNull ItemStack itemStack, Color color);
 
     int getInventoryId(Player bukkitPlayer);
 
