@@ -18,14 +18,16 @@ jobs:
       - name: Add Upstream
         run: git remote add upstream https://github.com/HibiscusMC/HibiscusCommons.git
 
-      - name: Fetch Upstream and Rebase
+      - name: Fetch Upstream and Merge
+        id: sync
         run: |
           git fetch upstream
           git checkout master
-          git rebase upstream/master
+          git merge upstream/master
           BRANCH=sync-upstream-$(date +%Y%m%d)
           git checkout -b $BRANCH
           git push origin $BRANCH
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v6
