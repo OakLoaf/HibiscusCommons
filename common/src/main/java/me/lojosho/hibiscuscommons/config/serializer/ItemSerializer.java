@@ -5,7 +5,6 @@ import io.papermc.paper.registry.RegistryKey;
 import me.lojosho.hibiscuscommons.HibiscusCommonsPlugin;
 import me.lojosho.hibiscuscommons.hooks.Hooks;
 import me.lojosho.hibiscuscommons.nms.MinecraftVersion;
-import me.lojosho.hibiscuscommons.nms.NMSHandler;
 import me.lojosho.hibiscuscommons.nms.NMSHandlers;
 import me.lojosho.hibiscuscommons.util.*;
 import org.apache.commons.lang3.EnumUtils;

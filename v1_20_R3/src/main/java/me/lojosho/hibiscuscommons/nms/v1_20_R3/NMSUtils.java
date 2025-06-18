@@ -4,7 +4,7 @@ import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-public class NMSUtils extends NMSCommon implements me.lojosho.hibiscuscommons.nms.NMSUtils {
+public class NMSUtils implements me.lojosho.hibiscuscommons.nms.NMSUtils {
 
     @Override
     public int getNextEntityId() {

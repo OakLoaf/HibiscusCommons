@@ -4,7 +4,6 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityDataTypes;
 import com.github.retrooper.packetevents.protocol.player.Equipment;
-import com.github.retrooper.packetevents.protocol.player.EquipmentSlot;
 import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.server.*;
@@ -368,6 +367,10 @@ public class PacketManager {
         for (final Player p : sendTo) {
             sendPacket(p, packet);
         }
+    }
+
+    public static void sendToastPacket(Player player, ItemStack icon, Component title, Component description) {
+        // TODO: Implement if needed
     }
 
     private static List<Player> getNearbyPlayers(Location location, int distance) {

@@ -4,6 +4,7 @@ import org.bukkit.Color;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -20,10 +21,22 @@ public interface NMSUtils {
         return NMSHandlers.getHandler().getEntity(entityId);
     }
 
-    @Nullable
-    Color getColor(ItemStack itemStack);
+    default @Nullable Color getColor(ItemStack itemStack) {
+        if (itemStack.getItemMeta() instanceof LeatherArmorMeta meta) {
+            return meta.getColor();
+        } else {
+            return null;
+        }
+    }
 
-    ItemStack setColor(@NotNull ItemStack itemStack, Color color);
+    default ItemStack setColor(@NotNull ItemStack itemStack, Color color) {
+        if (itemStack.getItemMeta() instanceof LeatherArmorMeta meta) {
+            meta.setColor(color);
+            itemStack.setItemMeta(meta);
+        }
+
+        return itemStack;
+    }
 
     int getInventoryId(Player bukkitPlayer);
 

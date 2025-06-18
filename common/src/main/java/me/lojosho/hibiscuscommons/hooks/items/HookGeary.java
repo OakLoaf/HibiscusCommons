@@ -1,8 +1,5 @@
 package me.lojosho.hibiscuscommons.hooks.items;
 
-import com.mineinabyss.geary.papermc.GearyPaper;
-import com.mineinabyss.geary.papermc.GearyPaperKt;
-import com.mineinabyss.geary.papermc.GearyPaperModule;
 import com.mineinabyss.geary.papermc.GearyPaperModuleKt;
 import com.mineinabyss.geary.papermc.tracking.items.ItemTrackingKt;
 import com.mineinabyss.geary.papermc.tracking.items.ItemTrackingModule;

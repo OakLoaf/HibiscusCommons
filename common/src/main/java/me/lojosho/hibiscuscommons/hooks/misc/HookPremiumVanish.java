@@ -10,8 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
-
 /**
  * A hook that integrates the plugin {@link de.myzelyam.api.vanish.VanishAPI Supervanish}
  *

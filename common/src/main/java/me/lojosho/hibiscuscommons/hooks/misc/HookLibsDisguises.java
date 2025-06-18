@@ -1,6 +1,5 @@
 package me.lojosho.hibiscuscommons.hooks.misc;
 
-import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.events.DisguiseEvent;
 import me.libraryaddict.disguise.events.UndisguiseEvent;
 import me.lojosho.hibiscuscommons.api.events.HibiscusPlayerUnVanishEvent;
@@ -11,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 public class HookLibsDisguises extends Hook {
     public HookLibsDisguises() {

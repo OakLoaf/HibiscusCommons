@@ -1,17 +1,17 @@
 package me.lojosho.hibiscuscommons.nms.v1_21_R4;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.component.DyedItemColor;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
-import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NMSUtils extends NMSCommon implements me.lojosho.hibiscuscommons.nms.NMSUtils {
+public class NMSUtils implements me.lojosho.hibiscuscommons.nms.NMSUtils {
 
     @Override
     public int getNextEntityId() {
@@ -19,10 +19,15 @@ public class NMSUtils extends NMSCommon implements me.lojosho.hibiscuscommons.nm
     }
 
     @Override
-    public org.bukkit.entity.Entity getEntity(int entityId) {
-        net.minecraft.world.entity.Entity entity = getNMSEntity(entityId);
-        if (entity == null) return null;
-        return entity.getBukkitEntity();
+    public int getInventoryId(Player bukkitPlayer) {
+        ServerPlayer player = ((CraftPlayer) bukkitPlayer).getHandle();
+        return player.inventoryMenu.containerId;
+    }
+
+    @Override
+    public int incrementInventoryStateId(Player bukkitPlayer) {
+        ServerPlayer player = ((CraftPlayer) bukkitPlayer).getHandle();
+        return player.inventoryMenu.incrementStateId();
     }
 
     @Override
@@ -41,14 +46,5 @@ public class NMSUtils extends NMSCommon implements me.lojosho.hibiscuscommons.nm
         net.minecraft.world.item.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);
         nmsStack.set(DataComponents.DYED_COLOR, new DyedItemColor(color.asRGB()));
         return CraftItemStack.asBukkitCopy(nmsStack);
-    }
-
-    private net.minecraft.world.entity.Entity getNMSEntity(int entityId) {
-        for (ServerLevel world : ((CraftServer) Bukkit.getServer()).getHandle().getServer().getAllLevels()) {
-            net.minecraft.world.entity.Entity entity = world.getEntity(entityId);
-            if (entity == null) continue;
-            return entity;
-        }
-        return null;
     }
 }

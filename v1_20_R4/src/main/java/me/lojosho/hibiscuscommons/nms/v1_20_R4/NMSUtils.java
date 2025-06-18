@@ -5,15 +5,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.component.DyedItemColor;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
 import org.bukkit.entity.Player;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NMSUtils extends NMSCommon implements me.lojosho.hibiscuscommons.nms.NMSUtils {
+public class NMSUtils implements me.lojosho.hibiscuscommons.nms.NMSUtils {
 
     @Override
     public int getNextEntityId() {
@@ -49,14 +47,5 @@ public class NMSUtils extends NMSCommon implements me.lojosho.hibiscuscommons.nm
         boolean tooltip = !nmsStack.has(DataComponents.DYED_COLOR) || nmsStack.get(DataComponents.DYED_COLOR).showInTooltip();
         nmsStack.set(DataComponents.DYED_COLOR, new DyedItemColor(color.asRGB(), tooltip));
         return CraftItemStack.asBukkitCopy(nmsStack);
-    }
-
-    private net.minecraft.world.entity.Entity getNMSEntity(int entityId) {
-        for (ServerLevel world : ((CraftServer) Bukkit.getServer()).getHandle().getServer().getAllLevels()) {
-            net.minecraft.world.entity.Entity entity = world.getEntity(entityId);
-            if (entity == null) continue;
-            return entity;
-        }
-        return null;
     }
 }
