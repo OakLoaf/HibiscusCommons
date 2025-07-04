@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "me.lojosho"
-version = "0.6.4${getGitCommitHash()}"
+version = "0.7.0${getGitCommitHash()}"
 
 allprojects {
     apply(plugin = "java")
@@ -33,7 +33,7 @@ allprojects {
         maven("https://repo.nexomc.com/snapshots/")
         maven("https://repo.nexomc.com/releases/")
 
-        // Geary
+        // Geary repo
         maven("https://repo.mineinabyss.com/releases/")
         maven("https://repo.mineinabyss.com/snapshots/")
 
@@ -48,9 +48,6 @@ allprojects {
 
         // MMOItems
         maven("https://nexus.phoenixdevt.fr/repository/maven-public/")
-
-        // PacketEvents
-        maven("https://repo.codemc.io/repository/maven-releases/")
 
         // Eco-Suite/Auxilor Repo
         maven("https://repo.auxilor.io/repository/maven-public/")
@@ -83,7 +80,7 @@ allprojects {
         compileOnly("com.mojang:authlib:3.13.56")
         compileOnly("org.jetbrains:annotations:26.0.1")
         compileOnly("io.th0rgal:oraxen:1.182.0")
-        compileOnly("com.nexomc:nexo:1.0.0")
+        compileOnly("com.nexomc:nexo:1.4.0")
         compileOnly("com.github.LoneDev6:API-ItemsAdder:3.6.3-beta-14")
         compileOnly("com.mineinabyss:geary-papermc:0.31.0-dev.4")
         compileOnly("it.unimi.dsi:fastutil:8.5.15")
@@ -92,7 +89,6 @@ allprojects {
         compileOnly("com.github.LeonMangler:SuperVanish:6.2.17")
         compileOnly("net.Indyuce:MMOItems-API:6.9.4-SNAPSHOT")
         compileOnly("com.willfp:eco:6.74.5")
-        compileOnly("com.github.retrooper:packetevents-spigot:2.4.0")
         compileOnly("me.clip:placeholderapi:2.11.6")
         compileOnly("LibsDisguises:LibsDisguises:10.0.44") {
             exclude("org.spigotmc", "spigot")
@@ -112,10 +108,10 @@ allprojects {
         testAnnotationProcessor("org.projectlombok:lombok:1.18.36")
 
         // Spigot Auto Loader Libraries
-        compileOnly("net.kyori:adventure-api:4.19.0")
-        compileOnly("net.kyori:adventure-text-minimessage:4.19.0")
-        compileOnly("net.kyori:adventure-text-serializer-gson:4.19.0")
-        compileOnly("net.kyori:adventure-platform-bukkit:4.3.4")
+        compileOnly("net.kyori:adventure-api:4.23.0")
+        compileOnly("net.kyori:adventure-text-minimessage:4.23.0")
+        compileOnly("net.kyori:adventure-text-serializer-gson:4.23.0")
+        compileOnly("net.kyori:adventure-platform-bukkit:4.4.0")
         compileOnly("org.apache.commons:commons-lang3:3.17.0")
 
         // Shaded Dependencies
@@ -131,12 +127,12 @@ allprojects {
 
 dependencies {
     implementation(project(path = ":common"))
-    implementation(project(path = ":v1_20_R3", configuration = "reobf"))
     implementation(project(path = ":v1_20_R4", configuration = "reobf"))
     implementation(project(path = ":v1_21_R1", configuration = "reobf"))
     implementation(project(path = ":v1_21_R2", configuration = "reobf"))
     implementation(project(path = ":v1_21_R3", configuration = "reobf"))
     implementation(project(path = ":v1_21_R4", configuration = "reobf"))
+    implementation(project(path = ":v1_21_R5", configuration = "reobf"))
 }
 
 tasks {
@@ -147,11 +143,11 @@ tasks {
     runServer {
         dependsOn(shadowJar)
         dependsOn(jar)
-        minecraftVersion("1.21.5")
+        minecraftVersion("1.21.6")
 
         downloadPlugins {
             hangar("PlaceholderAPI", "2.11.6")
-            url("https://download.luckperms.net/1567/bukkit/loader/LuckPerms-Bukkit-5.4.150.jar")
+            url("https://download.luckperms.net/1593/bukkit/loader/LuckPerms-Bukkit-5.5.8.jar")
         }
     }
 
@@ -165,12 +161,12 @@ tasks {
     }
 
     shadowJar {
-        dependsOn(":v1_20_R3:reobfJar")
         dependsOn(":v1_20_R4:reobfJar")
         dependsOn(":v1_21_R1:reobfJar")
         dependsOn(":v1_21_R2:reobfJar")
         dependsOn(":v1_21_R3:reobfJar")
         dependsOn(":v1_21_R4:reobfJar")
+        dependsOn(":v1_21_R5:reobfJar")
         mergeServiceFiles()
 
         relocate("org.bstats", "me.lojosho.shaded.bstats")
@@ -202,7 +198,6 @@ bukkit {
     main = "me.lojosho.hibiscuscommons.HibiscusCommonsPlugin"
     apiVersion = "1.20"
     authors = listOf("LoJoSho")
-    depend = listOf("packetevents")
     softDepend = listOf(
         "ModelEngine",
         "Oraxen",
@@ -227,10 +222,10 @@ bukkit {
     )
 
     libraries = listOf(
-        "net.kyori:adventure-api:4.19.0",
-        "net.kyori:adventure-text-minimessage:4.19.0",
-        "net.kyori:adventure-text-serializer-gson:4.19.0",
-        "net.kyori:adventure-platform-bukkit:4.3.4",
+        "net.kyori:adventure-api:4.23.0",
+        "net.kyori:adventure-text-minimessage:4.23.0",
+        "net.kyori:adventure-text-serializer-gson:4.23.0",
+        "net.kyori:adventure-platform-bukkit:4.4.0",
         "org.apache.commons:commons-lang3:3.17.0"
         //"org.spongepowered:configurate-yaml:4.2.0-SNAPSHOT" // Readd when 4.2.0 releases
     )
@@ -249,12 +244,6 @@ hangarPublish {
 
                 val versions: List<String> = listOf("1.18.2-1.20.4")
                 platformVersions.set(versions)
-
-                dependencies {
-                    hangar("ProtocolLib") {
-                        required.set(true)
-                    }
-                }
             }
         }
     }

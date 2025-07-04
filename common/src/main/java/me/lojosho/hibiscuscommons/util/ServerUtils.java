@@ -1,13 +1,12 @@
 package me.lojosho.hibiscuscommons.util;
 
-import com.github.retrooper.packetevents.PacketEvents;
-import com.github.retrooper.packetevents.protocol.player.TextureProperty;
-import com.github.retrooper.packetevents.protocol.player.UserProfile;
 import me.lojosho.hibiscuscommons.HibiscusCommonsPlugin;
 import me.lojosho.hibiscuscommons.nms.NMSHandlers;
 import org.bukkit.Color;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,14 +21,8 @@ public class ServerUtils {
     }
 
     @Nullable
-    public static TextureProperty getSkin(Player player) {
-        UserProfile userProfile = PacketEvents.getAPI().getPlayerManager().getUser(player).getProfile();
-        TextureProperty skinData = userProfile.getTextureProperties().stream().findAny().orElse(null);
-        if (skinData == null) {
-            return null;
-        }
-
-        return skinData;
+    public static PlayerTextures getSkin(Player player) {
+        return player.getPlayerProfile().getTextures();
     }
 
     /**
